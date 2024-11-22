@@ -23,6 +23,7 @@ namespace Empresa.Proyecto.Core.Entities
         /// Ultima modificacion de la entidad
         /// </summary>
         public DateTime Modified { get; set; }
+        
     }
 
 }

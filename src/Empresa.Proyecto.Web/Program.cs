@@ -21,6 +21,9 @@ builder.Services.AddDbContext<MyProjectContext>(db =>
 
 builder.Services.AddScoped<IAsyncRepository<SimpleEntity>, EFRepository<SimpleEntity>>();
 builder.Services.AddScoped<IAsyncRepository<ComplexEntity>, EFRepository<ComplexEntity>>();
+builder.Services.AddScoped<IAsyncRepository<NewEntity>, EFRepository<NewEntity>>();
+builder.Services.AddScoped<IAsyncRepository<SimpleEntity>, EFRepository<SimpleEntity>>();
+
 
 //Configuracion de JSON para que no cambie el case al hacer parse, y funcione los controles de Kendo
 builder.Services.AddRazorPages()
@@ -48,5 +51,20 @@ app.UseAuthorization();
 
 app.MapRazorPages();
 app.MapControllers();
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+
+    try
+    {
+        SeedData.Initialize(services); // Llamada al método para inicializar datos
+    }
+    catch (Exception ex)
+    {
+        var logger = services.GetRequiredService<ILogger<Program>>();
+        logger.LogError(ex, "Ocurrió un error al inicializar la base de datos.");
+    }
+}
 
 app.Run();

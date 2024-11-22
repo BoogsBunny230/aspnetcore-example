@@ -17,10 +17,12 @@ namespace Empresa.Proyecto.Infra.Data
 
         public DbSet<SimpleEntity> SimpleEntity => Set<SimpleEntity>();
         public DbSet<ComplexEntity> ComplexEntity => Set<ComplexEntity>();
+        public DbSet<NewEntity> NewEntity => Set<NewEntity>();
+
 
         protected override void OnModelCreating(ModelBuilder builder)
         {           
             builder.ApplyConfigurationsFromAssembly(System.Reflection.Assembly.GetExecutingAssembly());
         }
-    }
+    } 
 }

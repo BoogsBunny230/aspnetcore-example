@@ -7,7 +7,6 @@
 
 @using Empresa.Proyecto.Core.Entities;
 
-
 <h1>@ViewData["Title"]</h1>
 
 <div>
@@ -21,28 +20,75 @@
                 <th>Modificado</th>
             </tr>
         </thead>
-      
     </table>
-
 </div>
 
-@section Scripts{
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $('#entities').DataTable({
-                "ajax": {
-                    url: "?handler=Catalog",
-                    type: 'POST',
-                    headers: { 'RequestVerificationToken': $('@Html.AntiForgeryToken()').val() }
-                },
-                columns:[
-                    { data: 'Name'},
-                    { data: 'Value' },
-                    { data: 'Created' },
-                    { data: 'Modified'}
-                ]
-            });
-        })
-    </script>
-}
+<div style="margin-bottom: 20px;">
+    <a href="/NewEntities/Create" class="btn btn-primary">
+        Crear Nueva Entidad
+    </a>
+</div>
 
+@section Scripts {
+    <script type="text/javascript">
+    $(document).ready(function () {
+        $('#entities').DataTable({
+            "processing": true,               // Mostrar indicador de "Procesando"
+            "serverSide": true,               // Habilitar paginación del lado del servidor
+            "ajax": {
+                url: "?handler=Catalog",
+                type: 'POST',
+                headers: { 'RequestVerificationToken': $('@Html.AntiForgeryToken()').val() },
+                data: function (d) {          // Incluir parámetros para paginación
+                    d.start = d.start || 0;   // Inicio de la paginación
+                    d.length = d.length || 10;// Registros por página
+                }
+            },
+            "columns": [
+                { data: 'Id' },               // Columna Id
+                { data: 'Name' },             // Columna Nombre
+                { data: 'Value' },            // Columna Valor
+                { 
+                    data: 'Created',          // Columna Creado con formato dd/MM/yyyy
+                    render: function (data) {
+                        if (data) {
+                            var date = new Date(data);
+                            return date.toLocaleDateString('es-ES'); // Formato dd/MM/yyyy
+                        }
+                        return '';
+                    }
+                },
+                { 
+                    data: 'Modified',         // Columna Modificado con formato dd/MM/yyyy
+                    render: function (data) {
+                        if (data) {
+                            var date = new Date(data);
+                            return date.toLocaleDateString('es-ES'); // Formato dd/MM/yyyy
+                        }
+                        return '';
+                    }
+                }
+            ],
+            "order": [[1, 'asc']],  
+            "pageLength": 10,                 // Mostrar 10 registros por página
+            "lengthMenu": [10, 25, 50, 100],  // Opciones de registros por página
+            "language": {
+                "processing": "Procesando...",
+                "lengthMenu": "Mostrar _MENU_ registros",
+                "zeroRecords": "No se encontraron resultados",
+                "info": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                "infoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                "infoFiltered": "(filtrado de un total de _MAX_ registros)",
+                "search": "Buscar:",
+                "paginate": {
+                    "first": "Primero",
+                    "last": "Último",
+                    "next": "Siguiente",
+                    "previous": "Anterior"
+                }
+            }
+        });
+    });
+</script>
+
+}

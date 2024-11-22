@@ -1,0 +1,32 @@
+@page
+@model Empresa.Proyecto.Web.Pages.NewEntities.CreateModel
+@{
+    ViewData["Title"] = "Crear NewEntity";
+}
+
+<h1>Crear NewEntity</h1>
+
+<form method="post">
+    <div>
+        <label for="Nombre">Nombre</label>
+        <input type="text" id="Nombre" name="Nombre" value="@Model.NewEntity.Nombre" required maxlength="50" />
+    </div>
+    <div>
+        <label for="SimpleEntityId">Opción</label>
+        <select id="SimpleEntityId" name="SimpleEntityId" required>
+            <option value="">Seleccione una opción</option>
+            @foreach (var item in Model.SimpleEntities)
+            {
+                <option value="@item.Id">@item.Name</option>
+            }
+        </select>
+    </div>
+    <button type="submit">Guardar</button>
+</form>
+
+@if (!string.IsNullOrEmpty(Model.ErrorMessage))
+{
+    <p style="color: red;">@Model.ErrorMessage</p>
+}
+
+<link rel="stylesheet" href="/css/styles.css" />

@@ -4,6 +4,7 @@ using Empresa.Proyecto.Infra.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Empresa.Proyecto.Infra.Migrations
 {
     [DbContext(typeof(MyProjectContext))]
-    partial class MyProjectContextModelSnapshot : ModelSnapshot
+    [Migration("20241122165245_AddNewEntity")]
+    partial class AddNewEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
